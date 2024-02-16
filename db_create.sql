@@ -2,6 +2,7 @@
 
 -- Create Database to work with
 
+DROP DATABASE IF EXISTS `tech_blog_db`;
 CREATE DATABASE IF NOT EXISTS `tech_blog_db`;
 
 -- Create User to work with
