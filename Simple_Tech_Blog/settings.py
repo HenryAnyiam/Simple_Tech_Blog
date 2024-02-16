@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'blog_app.User'
 
 AUTHENTICATION_BACKENDS = [
-    "main_app.auth.CustomUserAuth",
+    "blog_app.auth.CustomUserAuth",
 ]
 
 
