@@ -1,1 +1,1 @@
-# A Simple Tech Blog built Python/Django
+# A Simple Tech Blog built with Python/Django
