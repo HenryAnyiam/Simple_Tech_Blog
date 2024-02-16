@@ -31,8 +31,9 @@ class Article(models.Model):
     title = models.CharField(max_length=250)
     image = models.ImageField(upload_to='post_images', blank=True)
     body = models.TextField()
-    publish_date = models.DateTimeField(null=True, editable=False)
+    publish_date = models.DateTimeField(null=True)
     summary = models.TextField(max_length=250, null=True)
+    views = models.PositiveIntegerField(default=0)
     edited = models.BooleanField(default=False)
 
     def __str__(self) -> str:
