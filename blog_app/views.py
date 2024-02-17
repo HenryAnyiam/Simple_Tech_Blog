@@ -26,7 +26,7 @@ class ArticleCreateView(CreateView):
 class ArticleView(TemplateView):
     """view articles"""
 
-    template_name = 'base_app/all_posts.html'
+    template_name = 'blog_app/all_posts.html'
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -35,7 +35,12 @@ class ArticleView(TemplateView):
     
     def get(self, request):
         context = self.get_context_data()
-        context['article'] = Article.objects.order_by('publish_date ')
+        context['article'] = Article.objects.order_by('publish_date')
+        context['users'] = User.objects.values_list('username', flat=True)
+        context['error'] = None
+        if not context['articles']:
+            context['error'] = 'No articles found'
+        return render(request, self.template_name, context=context)
 
     def post(self, request):
         order_by = request.POST.get('order_by', 'publish_date')
@@ -67,4 +72,7 @@ class ArticleView(TemplateView):
                                         .annotate(count_value=Count(order_by)). \
                                         order_by(order + 'count_value')
         context['error'] = error
+        context['users'] = User.objects.values_list('username', flat=True)
+        if not context['articles']:
+            context['error'] = 'No articles found'
         return render(request, self.template_name, context=context)           
