@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Article, Comment
+from .models import User, Article, Comment, Like
 
 class UserSignUpForm(forms.ModelForm):
     """create a default form to create a new user"""
@@ -23,12 +23,13 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ['title', 'body']
+        fields = ['title', 'image', 'body', 'author']
 
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'posttitle'}),
-            'body': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent'})
-        }
+        # widgets = {
+        #     'title': forms.TextInput(attrs={'class': 'posttitle'}),
+        #     'body': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent'}),
+        #     'author': forms.HiddenInput(attrs={'value': ''})
+        # }
 
 
 class CommentForm(forms.ModelForm):
@@ -36,4 +37,12 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['comment']
+        exclude = ['id', 'created_at']
+
+
+class LikeForm(forms.ModelForm):
+    """create a form to like a post"""
+
+    class Meta:
+        model = Like
+        exclude = ['id']
