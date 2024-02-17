@@ -1,0 +1,40 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <select>
+            <option disabled selected>Sort by</option>
+            <option value="publish_date">Date Published</option>
+            <option value="views">Most Viewed</option>
+            <option value="comments" >Mose Comments</option>
+            <option value="likes">Most Liked</option>
+        </select>
+        <select>
+            <option disabled selected>Order</option>
+            <option>Ascending</option>
+            <option>Descending</option>
+        </select>
+        <input list="authors_list" name="author" placeholder="Get specific author">
+        <datalist id="authors_list">
+            {% for user in users %}
+                <option>{{ user }}</option>
+            {% endfor %}
+        </datalist>
+
+        <input type="submit" value="Sort">
+    </form>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    {% if articles %}
+        {% for article in articles %}
+            <div id="article">
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.summary }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -9,7 +9,7 @@
     <div>
         <p><em>Techies Corner</em></p>
         <a>News</a>
-        <a>Articles</a>
+        <a href="{% url 'blog_app:articles' %}">Articles</a>
         {% if user.is_authenticated %}
 
             <a>Create New Article</a>
