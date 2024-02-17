@@ -42,7 +42,11 @@ class Article(models.Model):
     def publish_article(self) -> None:
         """update publish article publish date"""
 
-        self.publish_date = timezone.now()
+        if self.publish_date:
+            self.edited = True
+        else:
+            self.publish_date = timezone.now()
+            self.get_summary()
         self.save()
     
     def get_summary(self):
