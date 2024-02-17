@@ -1,0 +1,63 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+
+    {% if drafts %}
+        {% for draft in drafts %}
+            <div id="draft">
+                <h2>{{ draft.title }}</h2>
+                <form method="post" action="{% url 'blog_app:drafts' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ draft.id }}" name="post">
+                    <input type="hidden" value="True" name="publish">
+                    <input type="submit" value="Publish">
+                </form>
+                <form method="post" action="{% url 'blog_app:drafts' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ draft.id }}" name="post">
+                    <input type="hidden" value="True" name="edit">
+                    <input type="submit" value="Edit">
+                </form>
+                <form method="post" action="{% url 'blog_app:drafts' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ draft.id }}" name="post">
+                    <input type="hidden" value="True" name="delete">
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+        {% endfor %}
+    {% elif message %}
+            <p><em>{{ message }}</em></p>
+    {% elif edit %}
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <input type="text" name="title" value="{{ post.title }}">
+                    <input type="file" accept="image/*"  name="image" value="{{ post.image }}">
+                    <textarea name="body" value="{{ post.body }}"
+                    class="editable medium-editor-textarea postcontent" 
+                    required cols="40" rows="10">{{ post.body }}</textarea>
+                    <input type="hidden" value="{{ post.id }}" name="post">
+                    <input type="hidden" name="draft" value="True">
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+    {% elif post %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.body }}</p>
+        <form method="post" action="{% url 'blog_app:drafts' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ post.id }}" name="post">
+            <input type="hidden" value="True" name="publish">
+            <input type="submit" value="Publish">
+        </form>
+        <form method="post" action="{% url 'blog_app:drafts' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ post.id }}" name="post">
+            <input type="hidden" value="True" name="edit">
+            <input type="submit" value="Edit">
+        </form>
+    {% endif %}
+
+{% endblock %}

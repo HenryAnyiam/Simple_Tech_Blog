@@ -1,0 +1,22 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {% if error %}
+            {{ error }}
+            {% endif %}
+            
+            <input name="title" type="text" required value="{{ title }}">
+            <textarea name="body" value="{{ body }}" 
+            class="editable medium-editor-textarea postcontent" required 
+            cols="40" rows="10">{{ body }}</textarea>
+            <input type="file" name="image" accept="image/*" value="{{ image }}">
+
+            <input type="hidden" name="author" value="{{ user.id }}">
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
