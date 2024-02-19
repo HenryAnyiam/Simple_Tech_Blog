@@ -35,6 +35,7 @@ class Article(models.Model):
     summary = models.TextField(max_length=250, null=True)
     views = models.PositiveIntegerField(default=0)
     edited = models.BooleanField(default=False)
+    created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return f'{self.title} by {self.author.username}'
@@ -75,7 +76,7 @@ class Like(models.Model):
     """map to table Like"""
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='likes')
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='likes')
 
     def __str__(self) ->str:
