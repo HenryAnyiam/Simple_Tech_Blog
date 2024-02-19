@@ -58,7 +58,8 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
         """handle get request for article post"""
         post = Article.objects.filter(id=post_id)
         context = self.get_context_data()
-        drafts = Article.objects.filter(author=request.user, publish_date__isnull=True)
+        drafts = Article.objects.filter(author=request.user, publish_date__isnull=True) \
+                                .order_by('created_date')
         if not post_id:
             context['drafts'] = drafts
             if not drafts:
@@ -123,7 +124,6 @@ class ArticleView(TemplateView):
                                             .order_by('publish_date')
         context['users'] = User.objects.values_list('username', flat=True)
         context['error'] = None
-        print(context)
         if not context['articles']:
             context['error'] = 'No articles found'
         return render(request, self.template_name, context=context)
