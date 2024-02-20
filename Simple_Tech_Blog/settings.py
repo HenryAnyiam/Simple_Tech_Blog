@@ -100,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 9}
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -115,6 +116,22 @@ AUTHENTICATION_BACKENDS = [
     "blog_app.auth.CustomUserAuth",
 ]
 
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'taskhub2023@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'xmyp fkpl evos iltv'
+
+EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -138,6 +155,8 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+LOGIN_REDIRECT_URL = '/'
 
 
 # Default primary key field type

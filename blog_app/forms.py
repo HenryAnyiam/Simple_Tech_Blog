@@ -37,7 +37,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ['id', 'created_at']
+        fields = ['article', 'user', 'comment']
 
 
 class LikeForm(forms.ModelForm):
@@ -45,4 +45,4 @@ class LikeForm(forms.ModelForm):
 
     class Meta:
         model = Like
-        exclude = ['id']
+        fields = ['user', 'article']
