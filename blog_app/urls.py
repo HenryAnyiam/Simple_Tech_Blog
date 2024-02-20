@@ -3,6 +3,7 @@ from .views import HomeView
 from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDetailView
 from .views import CommentCreateView, LikePostView
 from .views import CreateUserView, CreateProfileView, ConfirmUserView, LoginView, LogoutView
+from .views import ResetPassword, ForgotPassword
 
 app_name = 'blog_app'
 
@@ -22,4 +23,7 @@ urlpatterns = [
     path('article/<pk>', ArticleDetailView.as_view(), name='view_article'),
     path('comment', CommentCreateView.as_view(), name='comment'),
     path('like', LikePostView.as_view(), name='like'),
+    path('forgot_password', ForgotPassword.as_view(), name='forgot_password'),
+    path('reset_password', ResetPassword.as_view(), name='update_password'),
+    path('reset_password/<encoded>', ResetPassword.as_view(), name='reset_password'),
 ]

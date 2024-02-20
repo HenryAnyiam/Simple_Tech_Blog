@@ -158,3 +158,81 @@ class LogoutView(View):
         if request.user:
             logout(request)
         return HttpResponseRedirect(reverse('blog_app:home'))
+
+
+class ResetPassword(TemplateView):
+
+    template_name = "blog_app/reset_passsword.html"
+
+    def get(self, request, encoded=None):
+        """get page"""
+        decode = UTILS.decode(encoded)
+        if decode.get('error'):
+            error = "Link Expired"
+            return render(request, self.template_name, {'fatal_error': error})
+        user = User.objects.filter(id=decode.get('user_id'))
+        if not user:
+            error = "User Not Found Error."
+            return render(request, self.template_name, {'fatal_error': error})
+        user = user[0]
+        return render(request, self.template_name, {'user': user.id})
+    
+    def post(self, request):
+        """update password"""
+        password = request.POST.get('password')
+        confirm = request.POST.get('confirm_password')
+        user_id = request.POST.get('user_id')
+
+        if not password or not confirm:
+            error = "Please input new password"
+            return render(request, self.template_name,
+                          {'user': user_id,
+                           'error': error})
+        elif password != confirm:
+            error = "Passwords do not match"
+            return render(request, self.template_name,
+                          {'user': user_id,
+                           'error': error})
+        user = User.objects.filter(id=user_id)
+        if not user:
+            error = "User Not Found Error."
+            return render(request, self.template_name, {'fatal_error': error})
+        user = user[0]
+        if user.check_password(password):
+            error = "New Password cannot be the same as Old Password. Input new password"
+            return render(request, self.template_name,
+                          {'error': error,
+                           'user': user.id})
+        user.set_password(password)
+        user.save()
+        return HttpResponseRedirect(reverse('blog_app:login'))
+
+
+class ForgotPassword(TemplateView):
+
+    template_name = 'blog_app/forgot_password.html'
+
+    def get(self, request):
+        """get page"""
+
+        return render(request, self.template_name)
+    
+    def post(self, request):
+        """send user password reset link"""
+
+        email = request.POST.get('email')
+
+        if not email:
+            error = "Please input email"
+            return render(request, self.template_name,
+                          {'error': error})
+        
+        user = User.objects.filter(email=email)
+        if not user:
+            error = "User with email not found"
+            return render(request, self.template_name,
+                          {'error': error})
+        user = user[0]
+        UTILS.forgot_password(request, user.id, user.email)
+        success = "Check Your Email For Reset Link"
+        return render(request, self.template_name, {'success': success})
