@@ -66,3 +66,26 @@ class UtilClass:
             connection.starttls()
             connection.login(EMAIL_USER, EMAIL_PASSWORD)
             connection.sendmail(EMAIL_USER, user_email, msg.as_string())
+    
+    def forgot_password(self, request, user_id, user_email):
+        """send a forgot password email"""
+
+        encoded_jwt = self.encode_id(user_id)
+        url = request.build_absolute_uri(reverse('blog_app:reset_password',
+                                                 kwargs={'encoded': encoded_jwt}))
+        html_content = "<html><body>"
+        html_content += "<h1>Reset Password at <em>Techies Corner</em></h2>"
+        html_content = "<h2><em>Click below to reset your password</em></h2>"
+        html_content += f"<a href='{url}'>Reset Password</a>"
+        html_content += "<p>Do not reply to this email<p>"
+        html_content += "</body></html>"
+        msg = MIMEMultipart('alternative')
+        msg['From'] = EMAIL_USER
+        msg['To'] = user_email
+        msg['Subject'] = 'Reset Your Techies Corner Password'
+        html_part = MIMEText(html_content, 'html')
+        msg.attach(html_part)
+        with SMTP(EMAIL_HOST) as connection:
+            connection.starttls()
+            connection.login(EMAIL_USER, EMAIL_PASSWORD)
+            connection.sendmail(EMAIL_USER, user_email, msg.as_string())
