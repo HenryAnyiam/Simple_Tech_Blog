@@ -15,11 +15,11 @@
             <a href="{% url 'blog_app:new_article' %}">Create New Article</a>
             <a href="{% url 'blog_app:drafts' %}">View Drafts</a>
             <a>View Profile</a>
-            <a>Log Out</a>
+            <a href="{% url 'blog_app:logout' %}">Log Out</a>
         {% else %}
 
-            <a>Sign Up</a>
-            <a>Log In</a>
+            <a href="{% url 'blog_app:signup' %}">Sign Up</a>
+            <a href="{% url 'blog_app:login' %}">Log In</a>
         
         {% endif %}
             

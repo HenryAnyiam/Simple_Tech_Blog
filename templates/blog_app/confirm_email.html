@@ -1,0 +1,18 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+
+    {% if error %}
+        <p><em>{{ error }}</em></p>
+    {% elif success %}
+        <p><em>{{ success }}</em></p>
+    {% endif %}
+    <div>
+        <form method="POST" action="{% url 'blog_app:get_confirmation' %}">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Input Email" required>
+            <input type="submit" name="Resend Confirmation Link">
+        </form>
+    </div>
+
+{% endblock %}

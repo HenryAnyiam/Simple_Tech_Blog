@@ -1,0 +1,25 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+
+    {% if message %}
+        <p><em>{{ message }}</em></p>
+    {% endif %}
+
+    <a href="{% url 'blog_app:login' %}">Skip</a>
+
+    <div>
+        <form method="POST" action="{% url 'blog_app:set_profile' user_id %}">
+            {% csrf_token %}
+
+            {% if error %}
+            {{ error }}
+            {% endif %}
+
+            {{ profile_form.as_p }}
+
+            <input type="submit" value="Save">
+        </form>
+    </div>
+
+{% endblock %}
