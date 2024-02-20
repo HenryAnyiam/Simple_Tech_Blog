@@ -8,6 +8,10 @@ class UserSignUpForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name',
                   'username', 'email', 'password']
+        
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 class UserProfileForm(forms.ModelForm):
