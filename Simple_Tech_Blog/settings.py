@@ -125,13 +125,19 @@ PASSWORD_HASHERS = [
 ]
 
 
-EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_USER = 'taskhub2023@gmail.com'
+# EMAIL_POST = 587
 
-EMAIL_HOST_PASSWORD = 'xmyp fkpl evos iltv'
+# EMAIL_HOST_USER = 'taskhub2023@gmail.com'
 
-EMAIL_USE_TLS = True
+# EMAIL_HOST_PASSWORD = 'xmyp fkpl evos iltv'
+
+# EMAIL_USE_TLS = False
+
+# EMAIL_SSL_CA_FILE = '/Users/mac/Documents/Simple_Tech_Blog/venv/lib/python3.9/site-packages/certifi/cacert.pem'
+
+# EMAIL_SSL_NOVERIFY = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
