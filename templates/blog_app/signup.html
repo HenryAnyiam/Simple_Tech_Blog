@@ -3,10 +3,11 @@
 {% block body %}
 
     <div>
+        <p>Sign Up To Get Started</p>
         {% if error %}
         {{ error }}
         {% endif %}
-        <form method="POST">
+        <form method="POST" action="{% url 'blog_app:signup' %}">
             {% csrf_token %}
 
             <input type="text" name="first_name" placeholder="First Name" required>
@@ -15,8 +16,10 @@
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
 
-            <input type="submit" value="Sign Up">
+            <input type="submit" value="Continue">
         </form>
+        <p>Already Have an Account</p>
+        <a href="{% url 'blog_app:login' %}">Log In</a>
     </div>
 
 {% endblock %}

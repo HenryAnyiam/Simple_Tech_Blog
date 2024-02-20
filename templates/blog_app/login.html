@@ -6,13 +6,17 @@
         {% if error %} 
             <p><em>{{ error }}</em></p>
         {% endif %}
-        <form method="POST">
+        <p>Log In to get started</p>
+        <form method="POST" action="{% url 'blog_app:login' %}">
             {% csrf_token %}
 
             <input type="text" name="username" placeholder="Username/Email">
             <input type="password" name="password" placeholder="Password">
             <input type="submit" name="Login">
         </form>
+        <a href="{% url 'blog_app:forgot_password' %}">Forgotten Password?</a>
+        <p>Don't have an account?</p>
+        <a href="{% url 'blog_app:signup' %}">Sign Up</a>
     </div>
 
 {% endblock %}

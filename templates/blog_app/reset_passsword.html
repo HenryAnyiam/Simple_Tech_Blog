@@ -1,0 +1,24 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% block body %}
+
+    {% if fatal_error %}
+        <p>{{ fatal_error }}</p>
+    {% else %}
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        {% if user %}
+            <form method="POST" action="{% url 'blog_app:update_password' %}">
+
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user }}">
+                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
+
+                <input type="submit" value="Continue">
+            </form>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
