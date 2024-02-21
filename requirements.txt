@@ -1,0 +1,14 @@
+argon==0.2.0
+asgiref==3.7.2
+bcrypt==4.1.2
+certifi==2024.2.2
+cffi==1.16.0
+cryptography==42.0.3
+Django==4.2.10
+pillow==10.2.0
+pycparser==2.21
+PyJWT==2.8.0
+PyMySQL==1.1.0
+scrypt==0.8.20
+sqlparse==0.4.4
+typing_extensions==4.9.0
