@@ -88,7 +88,7 @@ class News(models.Model):
     """map to table news"""
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    title = models.CharField(max_length=250, null=False, unique=True)
+    title = models.CharField(max_length=255, null=False, unique=True)
     link = models.URLField(null=False)
-    summary = models.CharField(max_length=250, null=True)
+    summary = models.CharField(max_length=1000, null=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
