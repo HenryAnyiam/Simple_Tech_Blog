@@ -134,16 +134,17 @@ class ArticleView(TemplateView):
         order = request.POST.get('order', '')
         author = request.POST.get('author')
         error = None
+        print(order_by, author, order)
         if order == "descending":
             order = '-'
         else:
             order = ''
         if author:
-            if order == 'publish_date' or order == 'views':
+            if order_by == 'publish_date' or order_by == 'views':
                 context['articles'] = Article.objects \
                                         .filter(author__username=author, publish_date__isnull=False) \
                                         .order_by(order + order_by)
-            elif order == 'likes' or order == 'comments':
+            elif order_by == 'likes' or order_by == 'comments':
                 context['articles'] = Article.objects \
                                         .filter(author__username=author, publish_date__isnull=False) \
                                         .annotate(count_value=Count(order_by)). \
@@ -153,10 +154,11 @@ class ArticleView(TemplateView):
                                         .filter(author__username=author, publish_date__isnull=False)
             error = f"No Article for Author named {author}" if not context['articles'] else None
         elif order_by:
-            if order == 'publish_date' or order == 'views':
+            if order_by == 'publish_date' or order_by == 'views':
                 context['articles'] = Article.objects \
-                                        .order_by(order + order_by)
-            elif order == 'likes' or order == 'comments':
+                                             .filter(publish_date__isnull=False)\
+                                             .order_by(order + order_by)
+            elif order_by == 'likes' or order_by == 'comments':
                 context['articles'] = Article.objects.filter(publish_date__isnull=False) \
                                         .annotate(count_value=Count(order_by)) \
                                         .order_by(order + 'count_value')
