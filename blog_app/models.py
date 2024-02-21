@@ -81,3 +81,13 @@ class Like(models.Model):
 
     def __str__(self) ->str:
         return f'{self.user.username} likes {self.article.title}'
+
+
+
+class News(models.Model):
+    """map to table news"""
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    title = models.CharField(max_length=250, null=False)
+    summary = models.CharField(max_length=250, null=True)
+    image = models.ImageField(upload_to='news_images', blank=True)
