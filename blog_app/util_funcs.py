@@ -4,7 +4,9 @@ from email.mime.text import MIMEText
 import jwt
 from datetime import datetime, timezone, timedelta
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from bs4 import BeautifulSoup
+import requests
+from .forms import NewsForm
 
 
 SECRET_KEY = 'django-insecure-c)4*)!$+j-u-$7kp@s9)amqzu2@9=oj6*9&5k0fgf993imzijf'
@@ -89,3 +91,56 @@ class UtilClass:
             connection.starttls()
             connection.login(EMAIL_USER, EMAIL_PASSWORD)
             connection.sendmail(EMAIL_USER, user_email, msg.as_string())
+
+
+class NewsScraper:
+
+    def get_news(self):
+        """scrape techmeme for news"""
+
+        try:
+            response = requests.get('https://techmeme.com/')
+        except requests.exceptions.ConnectionError:
+            print("Network Error")
+            response = None
+        result = {}
+        if response and response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            titles = soup.select(selector='div#topcol1 div.clus > .itc1 strong .ourh')
+            summaries = soup.select(selector='div#topcol1 div.clus > .itc1 div .ii')
+            links = [i['href'] for i in titles]
+            titles = [i.get_text().split('\n')[0] for i in titles]
+            summaries = [i.get_text() for i in summaries]
+            result = {
+                'titles': titles,
+                'links': links,
+                'summaries': summaries
+            }
+        else:
+            print(response.status_code)
+        return result
+    
+    def update_news_db(self):
+        """update the news database"""
+
+        data = self.get_news()
+        links = data.get('links')
+        titles = data.get('titles')
+        summaries = data.get('summaries')
+
+        if links and titles and summaries:
+            length = len(titles)
+            for i in range(length):
+                try:
+                    form = NewsForm({'title': titles[i],
+                                     'summary': summaries[i],
+                                     'link': links[i]})
+                except IndexError:
+                    break
+                else:
+                    if form.is_valid():
+                        form.save()
+                    else:
+                        print(form.errors)
+        else:
+            print(len(links), len(summaries), len(titles))
