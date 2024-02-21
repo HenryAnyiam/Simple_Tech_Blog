@@ -1,0 +1,39 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% load static %}
+
+{% block link_css %}
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        {% if news %}
+            <ul>
+                {% for i in news %}
+                    <li>
+                        <strong>
+                            <a href="{{ i.link }}" target="_blank">{{ i.title }}</a>
+                        </strong>
+                        <p>{{ i.summary }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if prev %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ prev }}" name="prev">
+                <input type="submit" value="prev">
+            </form>
+            {% endif %}
+            {% if next %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ next }}" name="next">
+                <input type="submit" value="next">
+            </form>
+            {% endif %}
+        {% endif %}
+    </div> 
+
+{% endblock %}

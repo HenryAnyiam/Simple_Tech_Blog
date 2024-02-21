@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Article, Comment, Like
+from .models import User, Article, Comment, Like, News
 
 class UserSignUpForm(forms.ModelForm):
     """create a default form to create a new user"""
@@ -50,3 +50,11 @@ class LikeForm(forms.ModelForm):
     class Meta:
         model = Like
         fields = ['user', 'article']
+
+
+class NewsForm(forms.ModelForm):
+    """create a form to create news objects"""
+
+    class Meta:
+        model = News
+        fields = ['title', 'link', 'summary']

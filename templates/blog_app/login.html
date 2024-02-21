@@ -1,5 +1,11 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/style.css' %}">
+{% endblock %}
+
 {% block body %}
 
     <div>

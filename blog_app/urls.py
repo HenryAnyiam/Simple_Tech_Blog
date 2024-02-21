@@ -4,6 +4,7 @@ from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDeta
 from .views import CommentCreateView, LikePostView
 from .views import CreateUserView, CreateProfileView, ConfirmUserView, LoginView, LogoutView
 from .views import ResetPassword, ForgotPassword
+from .views import NewsList
 
 app_name = 'blog_app'
 
@@ -18,6 +19,7 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('articles', ArticleView.as_view(), name='articles'),
     path('new_article', ArticleCreateView.as_view(), name='new_article'),
+    path('news', NewsList.as_view(), name="news"),
     path('draft', ArticleDraftView.as_view(), name='drafts'),
     path('draft/<post_id>', ArticleDraftView.as_view(), name='draft'),
     path('article/<pk>', ArticleDetailView.as_view(), name='view_article'),
