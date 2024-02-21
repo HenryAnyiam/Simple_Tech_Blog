@@ -88,6 +88,6 @@ class News(models.Model):
     """map to table news"""
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    title = models.CharField(max_length=250, null=False)
+    title = models.CharField(max_length=250, null=False, unique=True)
     summary = models.CharField(max_length=250, null=True)
-    image = models.ImageField(upload_to='news_images', blank=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
