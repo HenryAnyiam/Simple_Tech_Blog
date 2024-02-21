@@ -4,17 +4,17 @@
     <form method="POST">
         {% csrf_token %}
 
-        <select>
+        <select name="order_by" id="order_by">
             <option disabled selected>Sort by</option>
             <option value="publish_date">Date Published</option>
             <option value="views">Most Viewed</option>
             <option value="comments" >Mose Comments</option>
             <option value="likes">Most Liked</option>
         </select>
-        <select>
+        <select name="order" id="order">
             <option disabled selected>Order</option>
-            <option>Ascending</option>
-            <option>Descending</option>
+            <option value="ascending">Ascending</option>
+            <option value="descending">Descending</option>
         </select>
         <input list="authors_list" name="author" placeholder="Get specific author">
         <datalist id="authors_list">
