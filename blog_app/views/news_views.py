@@ -16,11 +16,15 @@ class NewsList(TemplateView):
         """handle get"""
         context = self.get_context_data()
         query = News.objects.all().order_by('-created_at')
-        if (not query or
-            (query[0].created_at > 
-             (datetime.now(tz=timezone.utc) + timedelta(hours=12)))):
+        if not query:
             NEWS_SCREAPER.update_news_db()
             query = News.objects.all().order_by('-created_at')
+        elif query and ((query[0].created_at + timedelta(hours=12)) < 
+            datetime.now(tz=timezone.utc)):
+            NEWS_SCREAPER.update_news_db()
+            query = News.objects.all().order_by('-created_at')
+
+        print(query[0].created_at + timedelta(hours=12), datetime.now(tz=timezone.utc))
         
         if len(query) > 25:
             context['news'] = query[:25]

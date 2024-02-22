@@ -68,8 +68,7 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
         if post and request.user.id == post[0].author.id:
             context['post'] = post[0]
         else:
-            error = "You have been redirected because you requested a page you do not have access to"
-            return render(request, 'blog_app/index.html', {'error': error})
+            return HttpResponseRedirect(reverse('blog_app:home'))
         return render(request, self.template_name, context=context)
     
     def post(self, request):
@@ -84,8 +83,7 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
             post = post[0]
             if publish == 'True':
                 post.publish_article()
-                success = "Post Published Successfully"
-                return render(request, 'blog_app/index.html', {'success': success})
+                return HttpResponseRedirect(reverse('blog_app:view_article', args=[post.id]))
             elif edit == 'True':
                 context = self.get_context_data()
                 context['post'] = post
@@ -105,12 +103,11 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
                     post.title = title
                     post.body = body
                     post.save()
-                return HttpResponseRedirect(reverse(f'blog_app:draft', args=[post.id]))
+                return HttpResponseRedirect(reverse('blog_app:draft', args=[post.id]))
             elif delete == 'True':
                 post.delete()
-                return HttpResponseRedirect(reverse(f'blog_app:drafts'))
-        error = 'Unknown Error'
-        return render(request, 'blog_app/index.html', {'error': error})     
+                return HttpResponseRedirect(reverse('blog_app:drafts'))
+        return HttpResponseRedirect(reverse('blog_app:home'))      
 
 
 class ArticleView(TemplateView):
