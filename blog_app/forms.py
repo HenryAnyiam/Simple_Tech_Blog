@@ -21,6 +21,11 @@ class UserProfileForm(forms.ModelForm):
         model = User
         fields = ['profile_pic', 'about']
 
+        widgets = {
+            'profile_pic': forms.FileInput(attrs={'class': 'form-control'}),
+            'about': forms.Textarea(attrs={'class': 'form-control'})
+        }
+
 
 class ArticleForm(forms.ModelForm):
     """create a form to create a new article"""

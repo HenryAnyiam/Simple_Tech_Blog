@@ -3,26 +3,36 @@
 {% load static %}
 
 {% block link_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/signup.css' %}">
 {% endblock %}
 
 {% block body %}
-
-    <div>
+<div id="container">
+    <div id="signup">
         {% if error %} 
             <p><em>{{ error }}</em></p>
         {% endif %}
         <p>Log In to get started</p>
         <form method="POST" action="{% url 'blog_app:login' %}">
             {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username/Email</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username/Email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
 
-            <input type="text" name="username" placeholder="Username/Email">
-            <input type="password" name="password" placeholder="Password">
-            <input type="submit" name="Login">
+            <input type="submit" class="btn btn-primary" name="Login">
         </form>
-        <a href="{% url 'blog_app:forgot_password' %}">Forgotten Password?</a>
-        <p>Don't have an account?</p>
-        <a href="{% url 'blog_app:signup' %}">Sign Up</a>
+        <hr>
+        <a href="{% url 'blog_app:forgot_password' %}" class="btn btn-primary">Forgotten Password?</a>
+        <div id="extras">
+            <p>Don't have an account?</p>
+            <a href="{% url 'blog_app:signup' %}" class="btn btn-primary">Sign Up</a>
+        </div>
     </div>
+</div>
 
 {% endblock %}

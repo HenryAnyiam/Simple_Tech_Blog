@@ -23,8 +23,6 @@ class NewsList(TemplateView):
             datetime.now(tz=timezone.utc)):
             NEWS_SCREAPER.update_news_db()
             query = News.objects.all().order_by('-created_at')
-
-        print(query[0].created_at + timedelta(hours=12), datetime.now(tz=timezone.utc))
         
         if len(query) > 25:
             context['news'] = query[:25]
