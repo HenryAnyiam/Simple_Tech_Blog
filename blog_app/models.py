@@ -45,6 +45,7 @@ class Article(models.Model):
 
         if self.publish_date:
             self.edited = True
+            self.get_summary()
         else:
             self.publish_date = timezone.now()
             self.get_summary()

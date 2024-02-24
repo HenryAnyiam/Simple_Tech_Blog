@@ -17,47 +17,52 @@
     {% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" id="navbar" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-sm bg-body-tertiary" id="navbar" data-bs-theme="dark">
         <div class="container-fluid" id="container-fluid">
             <a class="navbar-brand">Techies Corner</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation"
+            style="border: none;">
             <span class="navbar-toggler-icon"></span>
             </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'blog_app:home' %}">Home</a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav d-flex justify-content-end">
+                        <li class="nav-item d-flex justify-content-end">
+                            <a class="nav-link {% block active_home%}{% endblock %}" aria-current="page" href="{% url 'blog_app:home' %}">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link  active" aria-current="page" href="{% url 'blog_app:news' %}">News</a>
+                        <li class="nav-item d-flex justify-content-end">
+                            <a class="nav-link {% block active_news%}{% endblock %}" aria-current="page" href="{% url 'blog_app:news' %}">News</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'blog_app:articles' %}">Articles</a>
+                        <li class="nav-item d-flex justify-content-end">
+                            <a class="nav-link {% block active_articles%}{% endblock %}" aria-current="page" href="{% url 'blog_app:articles' %}">Articles</a>
                         </li>
                         
                         {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'blog_app:new_article' %}">Create New Article</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link {% block active_article%}{% endblock %}" aria-current="page" href="{% url 'blog_app:new_article' %}">Create New Article</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'blog_app:drafts' %}">View Drafts</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link {% block active_draft%}{% endblock %}" aria-current="page" href="{% url 'blog_app:drafts' %}">View Drafts</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page">View Profile</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link {% block active_profile%}{% endblock %}" aria-current="page">View Profile</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'blog_app:logout' %}">Log Out</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link" aria-current="page" href="{% url 'blog_app:logout' %}">Log Out</a>
                             </li>
                         
                         {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'blog_app:signup' %}">Sign Up</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link {% block active_signup%}{% endblock %}" aria-current="page" href="{% url 'blog_app:signup' %}">Sign Up</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'blog_app:login' %}">Log In</a>
+                            <li class="nav-item d-flex justify-content-end">
+                                <a class="nav-link {% block active_login%}{% endblock %}" aria-current="page" href="{% url 'blog_app:login' %}">Log In</a>
                             </li>
                         {% endif %}
                     </ul>
+                </div>
                 </div>
         </div>
     </nav>

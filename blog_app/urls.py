@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import HomeView
-from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDetailView
+from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDetailView, ArticleDeleteView
 from .views import CommentCreateView, LikePostView
 from .views import CreateUserView, CreateProfileView, ConfirmUserView, LoginView, LogoutView
 from .views import ResetPassword, ForgotPassword
@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('articles', ArticleView.as_view(), name='articles'),
     path('new_article', ArticleCreateView.as_view(), name='new_article'),
+    path('delete_post/<pk>', ArticleDeleteView.as_view(), name='delete_post'),
     path('news', NewsList.as_view(), name="news"),
     path('draft', ArticleDraftView.as_view(), name='drafts'),
     path('draft/<post_id>', ArticleDraftView.as_view(), name='draft'),

@@ -1,5 +1,7 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% block active_draft%}active{% endblock %}
+
 {% block body %}
 
     {% if drafts %}
@@ -45,7 +47,7 @@
             </div>
     {% elif post %}
         <h2>{{ post.title }}</h2>
-        <p>{{ post.body }}</p>
+        <p>{{ post.body|safe|linebreaks }}</p>
         <form method="post" action="{% url 'blog_app:drafts' %}">
             {% csrf_token %}
             <input type="hidden" value="{{ post.id }}" name="post">

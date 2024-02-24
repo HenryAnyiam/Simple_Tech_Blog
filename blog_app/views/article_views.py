@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, DeleteView
 from blog_app.models import User, Article
 from blog_app.forms import ArticleForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 # Create your views here.
 
@@ -63,7 +63,7 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
         if not post_id:
             context['drafts'] = drafts
             if not drafts:
-                context['message'] = "No Drafts Currently"
+                context['message'] = "You currently have no saved drafts"
             return render(request, self.template_name, context=context)
         if post and request.user.id == post[0].author.id:
             context['post'] = post[0]
@@ -118,7 +118,7 @@ class ArticleView(TemplateView):
     def get(self, request):
         context = self.get_context_data()
         context['articles'] = Article.objects.filter(publish_date__isnull=False) \
-                                            .order_by('publish_date')
+                                            .order_by('-publish_date')
         context['users'] = User.objects.values_list('username', flat=True)
         context['error'] = None
         if not context['articles']:
@@ -132,7 +132,7 @@ class ArticleView(TemplateView):
     def post(self, request):
         order_by = request.POST.get('order_by', 'publish_date')
         context = self.get_context_data()
-        order = request.POST.get('order', '')
+        order = request.POST.get('order', '-')
         author = request.POST.get('author')
         error = None
         next = request.POST.get('next')
@@ -210,3 +210,14 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = 'blog_app/article.html'
     context_object_name = 'article'
+
+
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+
+    login_url = '/login/'
+    redirect_field_name = 'blog_app/post_draft.html'
+
+    model = Article
+    
+    def get_success_url(self) -> str:
+        return reverse('blog_app:articles')

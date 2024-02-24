@@ -1,5 +1,6 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% block active_articles%}active{% endblock %}
 {% block body %}
 
     {% if article %}
@@ -11,11 +12,18 @@
         <input type="hidden" name="post" value="{{ article.id }}">
         <input type="submit" class="btn btn-outline-warning btn-sm" value="Edit Post">
     </form>
+    <form method="post" action="{% url 'blog_app:delete_post' article.id%}" id="delete_form">
+        {% csrf_token %}
+        <input type="hidden" name="post" value="{{ article.id }}">
+    </form>
+    <button id="delete_post" class="btn btn-outline-danger btn-sm">Delete Post</button>
     {% endif %}
 
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.body }}</p>
-        <p>{{ article.likes.all|length }} Likes</p>
+        <h2>{{ article.title|safe|linebreaksbr }}</h2>
+        <p>{{article.publish_date|date:"D, d M Y"}}</p>
+        <p>{{ article.body|safe|linebreaks }}</p>
+        <p>{{ article.likes.all|length }} Like{% if article.likes.all|length > 1 %}s{% endif %}</p>
+        <p>{{ article.comments.all|length }} Comment{% if article.comments.all|length > 1 %}s{% endif %}</p>
         {% for comment in article.comments.all %}
         <p>{{ comment.comment }}</p>
         <p>{{ comment.user.username }}</p>
@@ -37,9 +45,18 @@
                 <input type="submit" class="btn btn-primary btn-sm" value="Send">
             </form>
         {% else %}
-            <p><a>Log in</a> or <a>Sign up</a> to drop a comment</p>
+            <p><a href="{% url 'blog_app:login' %}">Log in</a> or <a href="{% url 'blog_app:signup' %}">Sign up</a> to drop a comment</p>
         {% endif %}
     
     {% endif %}
+    <script>
+        document.getElementById('delete_post').addEventListener('click', function() {
+            var result = confirm('Are you sure you want to delete this post?');
+
+            if (result) {
+                document.getElementById('delete_form').submit()
+            }
+        })
+    </script>
 
 {% endblock %}
