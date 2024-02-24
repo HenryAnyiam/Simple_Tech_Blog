@@ -1,4 +1,3 @@
-
 #container {
     background-color: white;
     margin: 0;
@@ -9,10 +8,10 @@
     margin-bottom: 20px;
 }
 
-#signup {
+/* #post-container {
     font-size: 20px;
     font-family:'Times New Roman', Times, serif;
-    width: 500px;
+    width: auto;
     background-color: #ffffff;
     border: 1px solid rgb(66, 151, 236);
     border-radius: 10px;
@@ -21,9 +20,4 @@
     padding: 20px;
     margin-top: 50px;
     height: auto;
-}
-
-#extras {
-    padding-top: 20px;
-}
-
+} */

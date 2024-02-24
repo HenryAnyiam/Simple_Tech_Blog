@@ -1,22 +1,38 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/posts.css' %}">
+{% endblock %}
+
 {% block body %}
-    <div>
-        <form method="post">
+<div id="container">
+    
+    <div id="post-container">
+        <form method="post" id="post-form">
             {% csrf_token %}
             {% if error %}
             {{ error }}
             {% endif %}
             
-            <input name="title" type="text" required value="{{ title }}" placeholder="Post Title">
-            <textarea name="body" value="{{ body }}" 
-            class="editable medium-editor-textarea postcontent" required 
-            cols="40" rows="10">{{ body }}</textarea>
+            <input name="title" type="text" required value="{{ title }}" placeholder="Title">
             <input type="file" name="image" accept="image/*" value="{{ image }}">
 
+            <textarea name="body" value="{{ body }}" id="textarea"
+            class="editable medium-editor-textarea"
+            required cols="40" rows="10">{{ body }}</textarea>
+            
             <input type="hidden" name="author" value="{{ user.id }}">
-
-            <input type="submit" value="Continue">
         </form>
     </div>
+    
+</div>
+<button class="btn btn-primary" id="submitForm">Continue</button>
+<script>
+    document.getElementById('submitForm').addEventListener('click', function() {
+        document.getElementById('post-form').submit();
+    })
+</script>
+
 {% endblock %}

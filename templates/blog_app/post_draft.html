@@ -10,19 +10,19 @@
                     {% csrf_token %}
                     <input type="hidden" value="{{ draft.id }}" name="post">
                     <input type="hidden" value="True" name="publish">
-                    <input type="submit" value="Publish">
+                    <input type="submit" class="btn btn-primary" value="Publish">
                 </form>
                 <form method="post" action="{% url 'blog_app:drafts' %}">
                     {% csrf_token %}
                     <input type="hidden" value="{{ draft.id }}" name="post">
                     <input type="hidden" value="True" name="edit">
-                    <input type="submit" value="Edit">
+                    <input type="submit" class="btn btn-outline-warning" value="Edit">
                 </form>
                 <form method="post" action="{% url 'blog_app:drafts' %}">
                     {% csrf_token %}
                     <input type="hidden" value="{{ draft.id }}" name="post">
                     <input type="hidden" value="True" name="delete">
-                    <input type="submit" value="Delete">
+                    <input type="submit" class="btn btn-danger" value="Delete">
                 </form>
             </div>
         {% endfor %}
@@ -40,7 +40,7 @@
                     required cols="40" rows="10">{{ post.body }}</textarea>
                     <input type="hidden" value="{{ post.id }}" name="post">
                     <input type="hidden" name="draft" value="True">
-                    <input type="submit" value="Save">
+                    <input type="submit" class="btn btn-success" value="Save">
                 </form>
             </div>
     {% elif post %}
@@ -50,13 +50,13 @@
             {% csrf_token %}
             <input type="hidden" value="{{ post.id }}" name="post">
             <input type="hidden" value="True" name="publish">
-            <input type="submit" value="Publish">
+            <input type="submit" class="btn btn-primary" value="Publish">
         </form>
         <form method="post" action="{% url 'blog_app:drafts' %}">
             {% csrf_token %}
             <input type="hidden" value="{{ post.id }}" name="post">
             <input type="hidden" value="True" name="edit">
-            <input type="submit" value="Edit">
+            <input type="submit" class="btn btn-outline-warning" value="Edit">
         </form>
     {% endif %}
 

@@ -4,6 +4,15 @@
 
     {% if article %}
 
+    {% if article.author == user %}
+    <form method="post" action="{% url 'blog_app:drafts' %}">
+        {% csrf_token %}
+        <input type="hidden" name="edit" value="True">
+        <input type="hidden" name="post" value="{{ article.id }}">
+        <input type="submit" class="btn btn-outline-warning btn-sm" value="Edit Post">
+    </form>
+    {% endif %}
+
         <h2>{{ article.title }}</h2>
         <p>{{ article.body }}</p>
         <p>{{ article.likes.all|length }} Likes</p>
@@ -11,14 +20,7 @@
         <p>{{ comment.comment }}</p>
         <p>{{ comment.user.username }}</p>
         {% endfor %}
-        {% if article.author == user %}
-            <form method="post" action="{% url 'blog_app:drafts' %}">
-                {% csrf_token %}
-                <input type="hidden" name="edit" value="True">
-                <input type="hidden" name="post" value="{{ article.id }}">
-                <input type="submit" value="Edit Post">
-            </form>
-        {% endif %}
+        
 
         {% if user.is_authenticated %}
             <form method="post" action="{% url 'blog_app:like' %}">
@@ -29,10 +31,10 @@
             </form>
             <form method="post" action="{% url 'blog_app:comment' %}">
                 {% csrf_token %}
-                <textarea placeholder="Comment" name="comment" required></textarea>
+                <input type="text" placeholder="Comment" name="comment" required>
                 <input type="hidden" name="user" value="{{ user.id }}">
                 <input type="hidden" name="article" value="{{ article.id }}">
-                <input type="submit" value="Send">
+                <input type="submit" class="btn btn-primary btn-sm" value="Send">
             </form>
         {% else %}
             <p><a>Log in</a> or <a>Sign up</a> to drop a comment</p>

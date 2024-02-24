@@ -121,13 +121,11 @@ class LoginView(TemplateView):
 
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
 
         if not username or not password:
             error = "Please Input Username/Email and Password"
             return render(request, self.template_name, {'error': error})
         user = authenticate(request, username=username, password=password)
-        print(user)
         if not user:
             user = User.objects.filter(username=username)
             if not user:

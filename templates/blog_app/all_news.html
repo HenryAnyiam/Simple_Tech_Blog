@@ -19,20 +19,23 @@
                     </li>
                 {% endfor %}
             </ul>
-            {% if prev %}
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" value="{{ prev }}" name="prev">
-                <input type="submit" class="btn btn-primary" value="prev">
-            </form>
-            {% endif %}
-            {% if next %}
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" value="{{ next }}" name="next">
-                <input type="submit" class="btn btn-primary" value="next">
-            </form>
-            {% endif %}
+            <div id="paginate" style="display: flex; justify-content: space-between;">
+                {% if prev %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ prev }}" name="prev">
+                    <input type="submit" class="btn btn-outline-primary btn-sm" value="prev">
+                </form>
+                {% endif %}
+                {% if next %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ next }}" name="next">
+                    <input type="submit" class="btn btn-outline-primary btn-sm" value="next">
+                </form>
+                {% endif %}
+            </div>
+            
         {% endif %}
     </div> 
 

@@ -10,6 +10,8 @@
           rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
           crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/base.css' %}">
     {% block link_css %}
     {% endblock %}
@@ -27,7 +29,7 @@
                             <a class="nav-link active" aria-current="page" href="{% url 'blog_app:home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'blog_app:news' %}">News</a>
+                            <a class="nav-link  active" aria-current="page" href="{% url 'blog_app:news' %}">News</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'blog_app:articles' %}">Articles</a>
@@ -61,6 +63,7 @@
     </nav>
     {% block body %}
     {% endblock %}
+    <script>var editor = new MediumEditor('.editable');</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>

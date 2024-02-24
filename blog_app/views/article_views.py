@@ -123,6 +123,10 @@ class ArticleView(TemplateView):
         context['error'] = None
         if not context['articles']:
             context['error'] = 'No articles found'
+        else:
+            if len(context['articles']) > 15:
+                context['articles'] = context['articles'][:15]
+                context['next'] = 15
         return render(request, self.template_name, context=context)
 
     def post(self, request):
@@ -131,8 +135,13 @@ class ArticleView(TemplateView):
         order = request.POST.get('order', '')
         author = request.POST.get('author')
         error = None
-        print(order_by, author, order)
-        if order == "descending":
+        next = request.POST.get('next')
+        prev = request.POST.get('prev')
+        if next or prev:
+            sort = request.POST.get('sort')
+            sort = tuple(sort.split(',')) if sort else ('publish_date', '', '')
+            order_by, order, author = sort
+        if order == "descending" or order == '-':
             order = '-'
         else:
             order = ''
@@ -161,8 +170,37 @@ class ArticleView(TemplateView):
                                         .order_by(order + 'count_value')
         context['error'] = error
         context['users'] = User.objects.values_list('username', flat=True)
+        context['sort'] = f"{order_by},{order},{author}"
         if not context.get('articles'):
             context['error'] = 'No articles found'
+        else:
+            length = len(context['articles'])
+            if next:
+                try:
+                    next = int(next)
+                except ValueError:
+                    next = 1 if length > 15 else length
+                else:
+                    prev = next
+                    next = (next + 15)
+                    if length < next:
+                        next = (length - prev) + prev
+                        
+            elif prev:
+                try:
+                    prev = int(prev)
+                except ValueError:
+                    prev = 0
+                else:
+                    next = prev
+                    prev = prev - 15
+                    if prev < 0:
+                        prev = 0
+            else:
+                prev, next = 0, 15 if len(context['articles']) >= 15 else len(context['articles'])
+            context['articles'] = context['articles'][prev:next]
+            context['prev'] = prev if prev != 0 else None
+            context['next'] = next if next != length else None
         return render(request, self.template_name, context=context)           
 
 

@@ -22,8 +22,9 @@
                 <option>{{ user }}</option>
             {% endfor %}
         </datalist>
+        <input type="hidden" value="{{ sort }}" name="sort">
 
-        <input type="submit" value="Sort">
+        <input type="submit" class="btn btn-outline-primary btn-sm" value="Sort">
     </form>
 
     {% if error %}
@@ -42,6 +43,24 @@
             </li>
             {% endfor %}
         </ul>
+        <div id="paginate" style="display: flex; justify-content: space-between;">
+            {% if prev %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ prev }}" name="prev">
+                <input type="hidden" value="{{ sort }}" name="sort">
+                <input type="submit" class="btn btn-outline-primary btn-sm" value="prev">
+            </form>
+            {% endif %}
+            {% if next %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ next }}" name="next">
+                <input type="hidden" value="{{ sort }}" name="sort">
+                <input type="submit" class="btn btn-outline-primary btn-sm" value="next">
+            </form>
+            {% endif %}
+        </div>
     </div>
         
     {% endif %}
