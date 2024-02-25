@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import HomeView
 from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDetailView, ArticleDeleteView
 from .views import CommentCreateView, LikePostView
@@ -29,4 +31,4 @@ urlpatterns = [
     path('forgot_password', ForgotPassword.as_view(), name='forgot_password'),
     path('reset_password', ResetPassword.as_view(), name='update_password'),
     path('reset_password/<encoded>', ResetPassword.as_view(), name='reset_password'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

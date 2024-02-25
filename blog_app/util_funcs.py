@@ -116,8 +116,6 @@ class NewsScraper:
                 'links': links,
                 'summaries': summaries
             }
-        else:
-            print(response.status_code)
         return result
     
     def update_news_db(self):
@@ -140,7 +138,3 @@ class NewsScraper:
                 else:
                     if form.is_valid():
                         form.save()
-                    else:
-                        print(form.errors)
-        else:
-            print(len(links), len(summaries), len(titles))

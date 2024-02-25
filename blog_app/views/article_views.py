@@ -24,16 +24,20 @@ class ArticleCreateView(LoginRequiredMixin, TemplateView):
     def post(self, request):
         """Get data from user form to create a new article"""
         title = request.POST.get('title')
-        image = request.POST.get('image')
+        image = request.FILES.get('image')
         body = request.POST.get('body')
         author = request.POST.get('author')
-        form_data = {'title': title, 'image': image,
+        form_data = {'title': title,
                     'body': body, 'author': author}
-
+        
         form = ArticleForm(form_data)
         if form.is_valid():
-            user = form.save()
-            url = reverse('blog_app:draft', kwargs={'post_id': user.id})
+            article = form.save(commit=False)
+            if image:
+                article.image = image
+                article.get_thumbnail()
+            article.save()
+            url = reverse('blog_app:draft', kwargs={'post_id': article.id})
             return HttpResponseRedirect(url)
         else:
             context = self.get_context_data()
@@ -82,6 +86,7 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
         if post:
             post = post[0]
             if publish == 'True':
+                post.get_thumbnail()
                 post.publish_article()
                 return HttpResponseRedirect(reverse('blog_app:view_article', args=[post.id]))
             elif edit == 'True':
@@ -90,16 +95,17 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
                 context['edit'] = edit
                 return render(request, self.template_name, context=context)
             elif draft == 'True':
-                image = request.POST.get('image')
+                image = request.FILES.get('image')
                 title = request.POST.get('title')
                 body = request.POST.get('body')
                 author = post.author
-                form_data = {'title': title, 'image': image,
+                form_data = {'title': title,
                             'body': body, 'author': author}
                 form = ArticleForm(form_data)
                 if form.is_valid():
                     if image:
                         post.image = image
+                    post.get_thumbnail()
                     post.title = title
                     post.body = body
                     post.save()

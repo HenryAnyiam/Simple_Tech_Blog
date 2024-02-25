@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from uuid import uuid4
 from django.utils import timezone
+from PIL import Image
 
 # Create your models here.
 
@@ -12,6 +13,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     about = models.TextField(null=True)
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    thumbnail = models.ImageField(upload_to='thumbnails', blank=True)
     confirmed_email = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -21,6 +23,14 @@ class User(AbstractUser):
         """confirm user email"""
         self.confirmed_email = True
         self.save()
+    
+    def get_thumbnail(self):
+        """get thumbnail for image"""
+        if self.profile_pic:
+            image = Image.Image.copy(self.profile_pic.path)
+            if image.width > 200 or image.height > 200:
+                image.thumbnail((200, 200))
+            self.thumbnail = image
 
 
 class Article(models.Model):
@@ -36,6 +46,8 @@ class Article(models.Model):
     views = models.PositiveIntegerField(default=0)
     edited = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
+    thumbnail = models.ImageField(upload_to='thumbnails', blank=True)
+
 
     def __str__(self) -> str:
         return f'{self.title} by {self.author.username}'
@@ -59,6 +71,16 @@ class Article(models.Model):
         else:
             summary = self.body[:200]
         self.summary = summary
+    
+    def get_thumbnail(self):
+        """get thumbnail for image"""
+        if self.profile_pic:
+            image = Image.Image.copy(self.profile_pic.path)
+            if image.width > 200 or image.height > 200:
+                image.thumbnail((200, 200))
+            self.thumbnail = image
+    
+    
 
 
 class Comment(models.Model):

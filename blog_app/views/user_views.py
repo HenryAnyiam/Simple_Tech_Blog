@@ -61,7 +61,7 @@ class CreateProfileView(TemplateView):
         profile_form = UserProfileForm(request.POST)
         if profile_form.is_valid():
             user = user[0]
-            user.profile_pic = request.POST.get('profile_pic')
+            user.profile_pic = request.FILES.get('profile_pic')
             user.about = request.POST.get('about')
             user.save()
             return HttpResponseRedirect(reverse('blog_app:login'))
