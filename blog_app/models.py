@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from uuid import uuid4
 from django.utils import timezone
 from PIL import Image
+from os import path
+from django.conf import settings
 
 # Create your models here.
 
@@ -27,9 +29,15 @@ class User(AbstractUser):
     def get_thumbnail(self):
         """get thumbnail for image"""
         if self.profile_pic:
-            image = Image.Image.copy(self.profile_pic.path)
+            image = Image.open(self.profile_pic.path)
+            image = Image.Image.copy(image)
             if image.width > 200 or image.height > 200:
-                image.thumbnail((200, 200))
+                image.thumbnail((300, 300))
+                name = 'profile_' + path.basename(self.profile_pic)
+                image.save(settings.MEDIA_ROOT, 'thumbnails', name)
+                self.thumbnail = path.join('thumbnails', name)
+                
+
             self.thumbnail = image
 
 
@@ -75,10 +83,13 @@ class Article(models.Model):
     def get_thumbnail(self):
         """get thumbnail for image"""
         if self.image:
-            image = Image.Image.copy(self.image.path)
+            image = Image.open(self.image)
+            image = Image.Image.copy(image)
             if image.width > 200 or image.height > 200:
-                image.thumbnail((200, 200))
-            self.thumbnail = image
+                image.thumbnail((300, 300))
+                name = 'article_' + path.basename(self.image.path)
+                image.save(path.join(settings.MEDIA_ROOT, 'thumbnails', name))
+                self.thumbnail = path.join('thumbnails', name)
     
     
 
