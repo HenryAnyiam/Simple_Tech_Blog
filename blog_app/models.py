@@ -74,8 +74,8 @@ class Article(models.Model):
     
     def get_thumbnail(self):
         """get thumbnail for image"""
-        if self.profile_pic:
-            image = Image.Image.copy(self.profile_pic.path)
+        if self.image:
+            image = Image.Image.copy(self.image.path)
             if image.width > 200 or image.height > 200:
                 image.thumbnail((200, 200))
             self.thumbnail = image
