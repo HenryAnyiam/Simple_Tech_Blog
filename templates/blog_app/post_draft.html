@@ -14,24 +14,26 @@
         {% for draft in drafts %}
             <div id="draft">
                 <h2>{{ draft.title }}</h2>
-                <form method="post" action="{% url 'blog_app:drafts' %}">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ draft.id }}" name="post">
-                    <input type="hidden" value="True" name="publish">
-                    <input type="submit" class="btn btn-primary" value="Publish">
-                </form>
-                <form method="post" action="{% url 'blog_app:drafts' %}">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ draft.id }}" name="post">
-                    <input type="hidden" value="True" name="edit">
-                    <input type="submit" class="btn btn-outline-warning" value="Edit">
-                </form>
-                <form method="post" action="{% url 'blog_app:drafts' %}">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ draft.id }}" name="post">
-                    <input type="hidden" value="True" name="delete">
-                    <input type="submit" class="btn btn-danger" value="Delete">
-                </form>
+                <div class="d-flex justify-content-start buttons">
+                    <form method="post" action="{% url 'blog_app:drafts' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ draft.id }}" name="post">
+                        <input type="hidden" value="True" name="publish">
+                        <input type="submit" class="btn btn-primary btn-sm button" value="Publish">
+                    </form>
+                    <form method="post" action="{% url 'blog_app:drafts' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ draft.id }}" name="post">
+                        <input type="hidden" value="True" name="edit">
+                        <input type="submit" class="btn btn-warning btn-sm button" value="Edit">
+                    </form>
+                    <form method="post" action="{% url 'blog_app:drafts' %}" id="delete_draft">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ draft.id }}" name="post">
+                        <input type="hidden" value="True" name="delete">
+                    </form>
+                    <button type="submit" class="btn btn-danger btn-sm button" id="delete_button">Delete</button>
+                </div>
             </div>
         {% endfor %}
     {% elif message %}
@@ -45,7 +47,7 @@
                     <input type="file" accept="image/*"  name="image" value="{{ post.image }}" class="form-control input-control">
                     <textarea name="body" value="{{ post.body }}"
                     class="editable medium-editor-textarea postcontent form-control input-control" 
-                    required cols="40" rows="10">{{ post.body }}</textarea>
+                    required cols="40" rows="10">{{ post.body|safe|linebreaks }}</textarea>
                     <input type="hidden" value="{{ post.id }}" name="post">
                     <input type="hidden" name="draft" value="True">
                     <input type="submit" class="btn btn-success form-control input-control" value="Save">
@@ -72,5 +74,14 @@
         </div>
     </div>
     {% endif %}
+    <script>
+        document.getElementById('delete_button').addEventListener('click', function() {
+            var result = confirm('Are you sure you want to delete this draft')
+
+            if (result) {
+                document.getElementById('delete_form').submit()
+            }
+        })
+    </script>
 
 {% endblock %}

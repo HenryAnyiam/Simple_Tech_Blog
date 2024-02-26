@@ -79,13 +79,15 @@
 
         {% for comment in article.comments.all %}
         <div class="d-flex justify-content-start comment">
-            {% if comment.user.profile_pic %}
             <div class="image">
+            {% if comment.user.profile_pic %}
                 <img src="{{ comment.user.mini_thumbnail.url }}">
-            </div>
+            {% else %}
+                <p>No Image</p>
             {% endif %}
+            </div>
             <div class="comment-box">
-            <p class="name">{{ comment.user.username }}</p>
+            <a class="name" href="{% url 'blog_app:user_detail' comment.user.id %}">{{ comment.user.username }}</a>
             <p class="text-break the-comment">{{ comment.comment }}</p>
             </div>
         </div>

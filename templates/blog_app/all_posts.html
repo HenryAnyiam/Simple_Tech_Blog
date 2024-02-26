@@ -37,23 +37,23 @@
     <div>
         <ul>
             {% for article in articles %}
-            <li>
-                <div id="article" class="d-flex justify-content-start container-fluid">
-                    <div>
-                        <h2>{{ article.title }}</h2>
-                        <div style="height: 20vh; overflow: hidden;">
-                        <p class="text-break">{{ article.summary|safe|linebreaksbr }}...</p>
+                <li>
+                    <div id="article" class="d-flex justify-content-start container-fluid">
+                        <div class="text-div">
+                            <h2>{{ article.title }}</h2>
+                            <div class="body-div" style="height: 20vh; overflow: hidden;">
+                                <p class="text-break">{{ article.body|safe|linebreaksbr }}...</p>
+                            </div>
+                            <a href="{% url 'blog_app:view_article' article.id %}">Read More</a>
                         </div>
-                        <a href="{% url 'blog_app:view_article' article.id %}">Read More</a>
-                        
+
+                        {% if article.image %}
+                        <div class="image-div" style="margin: 5px;">
+                            <img src="{{ article.thumbnail.url }}" class="img-thumbnail">
+                        </div>
+                        {% endif %}
                     </div>
-                    {% if article.image %}
-                    <div style="margin: 5px;">
-                        <img src="{{ article.thumbnail.url }}" class="img-thumbnail">
-                    </div>
-                    {% endif %}
-                </div>
-            </li>
+                </li>
             {% endfor %}
         </ul>
         <div id="paginate" style="display: flex; justify-content: space-between;">

@@ -1,0 +1,60 @@
+{% extends 'blog_app/base_file.html' %}
+
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/profile.css' %}">
+{% endblock %}
+
+{% block active_profile%}
+    {% if user.id == user_profile.id %}
+        active
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container profile-contaner">
+    <div class="container profile">
+        
+        <div class="img-container">
+            {% if user_profile.thumbnail %}
+                <img class="circular-image" src="{{ user_profile.thumbnail.url }}">
+            {% else %}
+                <p>No Image</p>
+            {% endif %}
+        </div>
+        <div class="d-flex align-items-start">
+            <h2>{{ user_profile.first_name }} {{ user_profile.last_name }}</h2>
+            {% if user.id == user_profile.id %}
+                <a class="btn btn-warning btn-sm" href="{% url 'blog_app:edit_profile' %}" style="margin: 5px;">Edit Profile</a>
+            {% endif %}
+        </div>
+        <p>{{ user_profile.about }}</p>
+
+        <h3>Articles</h3>
+        <ul class="article-list">
+            {% for article in user_profile.articles.all %}
+                {% if article.publish_date %}
+                    <li>
+                        <div id="article" class="d-flex justify-content-start container-fluid">
+                            <div class="text-div">
+                                <h2>{{ article.title }}</h2>
+                                <div class="body-div" style="height: 20vh; overflow: hidden;">
+                                    <p class="text-break">{{ article.body|safe|linebreaksbr }}...</p>
+                                </div>
+                                <a href="{% url 'blog_app:view_article' article.id %}">Read More</a>
+                            </div>
+
+                            {% if article.image %}
+                            <div class="image-div" style="margin: 5px;">
+                                <img src="{{ article.thumbnail.url }}" class="img-thumbnail">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

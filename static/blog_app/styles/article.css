@@ -50,3 +50,20 @@
     margin: 5px;
     margin-bottom: 2vh;
 }
+
+.image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image > img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}

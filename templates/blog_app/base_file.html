@@ -47,7 +47,7 @@
                                 <a class="nav-link {% block active_draft%}{% endblock %}" aria-current="page" href="{% url 'blog_app:drafts' %}">View Drafts</a>
                             </li>
                             <li class="nav-item d-flex justify-content-end">
-                                <a class="nav-link {% block active_profile%}{% endblock %}" aria-current="page">View Profile</a>
+                                <a class="nav-link {% block active_profile%}{% endblock %}" aria-current="page" href="{% url 'blog_app:user_detail' user.id %}">My Profile</a>
                             </li>
                             <li class="nav-item d-flex justify-content-end">
                                 <a class="nav-link" aria-current="page" href="{% url 'blog_app:logout' %}">Log Out</a>
