@@ -6,7 +6,7 @@ from .views import ArticleView, ArticleCreateView, ArticleDraftView, ArticleDeta
 from .views import CommentCreateView, LikePostView
 from .views import CreateUserView, CreateProfileView, ConfirmUserView, LoginView, LogoutView
 from .views import ResetPassword, ForgotPassword
-from .views import NewsList
+from .views import NewsList, UserDetailView, UserEditView
 
 app_name = 'blog_app'
 
@@ -18,6 +18,8 @@ urlpatterns = [
     path('login', LoginView.as_view(), name='login'),
     path('confirm_email/', ConfirmUserView.as_view(), name='get_confirmation'),
     path('confirm_email/<encoded>', ConfirmUserView.as_view(), name='confirm_email'),
+    path('user/<pk>', UserDetailView.as_view(), name='user_detail'),
+    path('edit_profile', UserEditView.as_view(), name='edit_profile'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('articles', ArticleView.as_view(), name='articles'),
     path('new_article', ArticleCreateView.as_view(), name='new_article'),

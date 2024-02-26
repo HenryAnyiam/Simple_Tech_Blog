@@ -54,7 +54,6 @@ class Article(models.Model):
     image = models.ImageField(upload_to='post_images', blank=True)
     body = models.TextField()
     publish_date = models.DateTimeField(null=True)
-    summary = models.TextField(max_length=250, null=True)
     views = models.PositiveIntegerField(default=0)
     edited = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
@@ -69,20 +68,10 @@ class Article(models.Model):
 
         if self.publish_date:
             self.edited = True
-            self.get_summary()
         else:
             self.publish_date = timezone.now()
-            self.get_summary()
         self.save()
-    
-    def get_summary(self):
-        """get a default summary"""
-        if len(self.body) < 200:
-            length = len(self.body) // 2
-            summary = self.body[:length]
-        else:
-            summary = self.body[:200]
-        self.summary = summary
+
     
     def get_thumbnail(self):
         """get thumbnail for image"""

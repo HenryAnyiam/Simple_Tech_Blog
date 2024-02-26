@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, View
+from django.views.generic import TemplateView, DetailView, View
 from blog_app.models import User
 from blog_app.forms import UserSignUpForm, UserProfileForm
 from django.urls import reverse
@@ -64,7 +64,6 @@ class CreateProfileView(TemplateView):
             user.profile_pic = request.FILES.get('profile_pic')
             user.about = request.POST.get('about')
             user.save()
-            print(request.FILES.get('profile_pic'))
             user.get_thumbnail()
             user.save()
             return HttpResponseRedirect(reverse('blog_app:login'))
@@ -236,3 +235,46 @@ class ForgotPassword(TemplateView):
         UTILS.forgot_password(request, user.id, user.email)
         success = "Check Your Email For Reset Link"
         return render(request, self.template_name, {'success': success})
+
+
+class UserDetailView(DetailView):
+
+    model = User
+    template_name = "blog_app/profile.html"
+    context_object_name = 'user_profile'
+
+
+
+class UserEditView(TemplateView):
+
+    template_name = 'blog_app/edit_profile.html'
+
+    def get(self, request):
+        """get page for user edit"""
+
+        if request.user.is_authenticated:
+            return render(request, self.template_name)
+        return HttpResponseRedirect(reverse('blog_app:home'))
+    
+    def post(self, request):
+        """update user data"""
+
+        if request.user.is_authenticated:
+            print(request.POST.get('password'), request.POST.get('confirm_password'))
+            user = request.user
+            changeable = ['first_name', 'last_name', 'about']
+            if 'password' in request.POST:
+                user.set_password(request.POST.get('password'))
+            for i in request.POST:
+                if i in changeable and request.POST.get(i) != '':
+                    setattr(user, i, request.POST.get(i))
+            user.save()
+            if request.FILES.get('profile_pic'):
+                user.profile_pic = request.FILES.get('profile_pic')
+                user.save()
+                user.get_thumbnail()
+                user.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse('blog_app:user_detail', args=[user.id]))
+        return HttpResponseRedirect(reverse('blog_app:home'))
+
