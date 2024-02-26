@@ -5,7 +5,7 @@
 {% block body %}
     <form method="POST">
         {% csrf_token %}
-
+        <div class="input-group input-group-sm mb-3" style="margin: 5px;">
         <select name="order_by" id="order_by">
             <option disabled selected>Sort by</option>
             <option value="publish_date">Date Published</option>
@@ -26,7 +26,8 @@
         </datalist>
         <input type="hidden" value="{{ sort }}" name="sort">
 
-        <input type="submit" class="btn btn-outline-primary btn-sm" value="Sort">
+        <input type="submit" class="btn btn-primary" value="Sort">
+    </div>
     </form>
 
     {% if error %}
@@ -37,10 +38,20 @@
         <ul>
             {% for article in articles %}
             <li>
-                <div id="article">
-                    <h2>{{ article.title }}</h2>
-                    <p>{{ article.summary|safe|linebreaksbr }}...</p>
-                    <a href="{% url 'blog_app:view_article' article.id %}">Read More</a>
+                <div id="article" class="d-flex justify-content-start container-fluid">
+                    <div>
+                        <h2>{{ article.title }}</h2>
+                        <div style="height: 20vh; overflow: hidden;">
+                        <p class="text-break">{{ article.summary|safe|linebreaksbr }}...</p>
+                        </div>
+                        <a href="{% url 'blog_app:view_article' article.id %}">Read More</a>
+                        
+                    </div>
+                    {% if article.image %}
+                    <div style="margin: 5px;">
+                        <img src="{{ article.thumbnail.url }}" class="img-thumbnail">
+                    </div>
+                    {% endif %}
                 </div>
             </li>
             {% endfor %}

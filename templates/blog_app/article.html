@@ -1,52 +1,95 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/article.css' %}">
+{% endblock %}
+
 {% block active_articles%}active{% endblock %}
 {% block body %}
 
     {% if article %}
 
     {% if article.author == user %}
-    <form method="post" action="{% url 'blog_app:drafts' %}">
-        {% csrf_token %}
-        <input type="hidden" name="edit" value="True">
-        <input type="hidden" name="post" value="{{ article.id }}">
-        <input type="submit" class="btn btn-outline-warning btn-sm" value="Edit Post">
-    </form>
-    <form method="post" action="{% url 'blog_app:delete_post' article.id%}" id="delete_form">
-        {% csrf_token %}
-        <input type="hidden" name="post" value="{{ article.id }}">
-    </form>
-    <button id="delete_post" class="btn btn-outline-danger btn-sm">Delete Post</button>
+    <div class="d-flex justify-content-between btn-container">
+        <div>
+            <form method="post" action="{% url 'blog_app:drafts' %}">
+                {% csrf_token %}
+                <input type="hidden" name="edit" value="True">
+                <input type="hidden" name="post" value="{{ article.id }}">
+                <input type="submit" class="btn btn-warning btn-sm" value="Edit Post">
+            </form>
+        </div>
+        <div>
+            <form method="post" action="{% url 'blog_app:delete_post' article.id%}" id="delete_form">
+                {% csrf_token %}
+                <input type="hidden" name="post" value="{{ article.id }}">
+            </form>
+            <button id="delete_post" class="btn btn-danger btn-sm">Delete Post</button>
+        </div>
+    </div>
     {% endif %}
 
+    <div class="container">
+
         <h2>{{ article.title|safe|linebreaksbr }}</h2>
-        <p>{{article.publish_date|date:"D, d M Y"}}</p>
+        <div class="d-flex justify-content-start details">
+            <p>Written by: {{ article.author.username }}</p>
+            <p>{{article.publish_date|date:"D, d M Y"}}</p>
+            {% if article.edited %}
+                <p>Edited</p>
+            {% endif %}
+        </div>
+        {% if article.image %}
+        <img src="{{ article.image.url }}" class="img-fluid img-thumbnail">
+        {% endif %}
         <p>{{ article.body|safe|linebreaks }}</p>
-        <p>{{ article.likes.all|length }} Like{% if article.likes.all|length > 1 %}s{% endif %}</p>
-        <p>{{ article.comments.all|length }} Comment{% if article.comments.all|length > 1 %}s{% endif %}</p>
-        {% for comment in article.comments.all %}
-        <p>{{ comment.comment }}</p>
-        <p>{{ comment.user.username }}</p>
-        {% endfor %}
-        
+        <div class="d-flex justify-content-start details">
+            <p>{{ article.likes.all|length }} Like{% if article.likes.all|length > 1 %}s{% endif %}</p>
+            <p>{{ article.comments.all|length }} Comment{% if article.comments.all|length > 1 %}s{% endif %}</p>
+        </div>
 
         {% if user.is_authenticated %}
-            <form method="post" action="{% url 'blog_app:like' %}">
-                {% csrf_token %}
-                <input type="hidden" name="user" value="{{ user.id }}">
-                <input type="hidden" name="article" value="{{ article.id }}">
-                <input type="submit" value="Like Post">
-            </form>
-            <form method="post" action="{% url 'blog_app:comment' %}">
-                {% csrf_token %}
-                <input type="text" placeholder="Comment" name="comment" required>
-                <input type="hidden" name="user" value="{{ user.id }}">
-                <input type="hidden" name="article" value="{{ article.id }}">
-                <input type="submit" class="btn btn-primary btn-sm" value="Send">
-            </form>
+        <div class="d-flex btn-container">
+            <div class="p-2">
+                <form method="post" action="{% url 'blog_app:like' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ user.id }}">
+                    <input type="hidden" name="article" value="{{ article.id }}">
+                    <input type="submit" value="Like Post" class="btn btn-primary">
+                </form>
+            </div>
+            <div class="p-2 flex-grow-1">
+                <form method="post" action="{% url 'blog_app:comment' %}">
+                    {% csrf_token %}
+                    
+                    <input type="hidden" name="user" value="{{ user.id }}">
+                    <input type="hidden" name="article" value="{{ article.id }}">
+                    <div class="input-group mb-3">
+                        <input type="text" placeholder="Comment" name="comment" class="form-control" required>
+                        <input type="submit" class="btn btn-primary" value="Add Comment" id="basic-addon1">
+                    </div>
+                </form>
+            </div>
+        </div>
         {% else %}
             <p><a href="{% url 'blog_app:login' %}">Log in</a> or <a href="{% url 'blog_app:signup' %}">Sign up</a> to drop a comment</p>
         {% endif %}
+
+        {% for comment in article.comments.all %}
+        <div class="d-flex justify-content-start comment">
+            {% if comment.user.profile_pic %}
+            <div class="image">
+                <img src="{{ comment.user.mini_thumbnail.url }}">
+            </div>
+            {% endif %}
+            <div class="comment-box">
+            <p class="name">{{ comment.user.username }}</p>
+            <p class="text-break the-comment">{{ comment.comment }}</p>
+            </div>
+        </div>
+        {% endfor %}
     
     {% endif %}
     <script>

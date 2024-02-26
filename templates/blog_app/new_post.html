@@ -10,19 +10,21 @@
 
 {% block body %}
 <div id="container">
-    
-    <div id="post-container">
-        <form method="post" id="post-form">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success btn-cls" id="submitForm">Continue</button>
+    </div>
+    <div class="container draft-container">
+        <form method="post" id="post-form" enctype="multipart/form-data">
             {% csrf_token %}
             {% if error %}
             {{ error }}
             {% endif %}
             
-            <input name="title" type="text" required value="{{ title }}" placeholder="Title">
-            <input type="file" name="image" accept="image/*" value="{{ image }}">
+            <input name="title" type="text" required value="{{ title }}" placeholder="Title" class="form-control input-control">
+            <input type="file" name="image" accept="image/*" value="{{ image }}" class="form-control input-control">
 
             <textarea name="body" value="{{ body }}" id="textarea"
-            class="editable medium-editor-textarea"
+            class="editable medium-editor-textarea input-control body-control"
             required cols="40" rows="10">{{ body }}</textarea>
             
             <input type="hidden" name="author" value="{{ user.id }}">
@@ -30,7 +32,7 @@
     </div>
     
 </div>
-<button class="btn btn-primary" id="submitForm">Continue</button>
+
 <script>
     document.getElementById('submitForm').addEventListener('click', function() {
         document.getElementById('post-form').submit();

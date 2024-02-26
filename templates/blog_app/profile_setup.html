@@ -17,7 +17,7 @@
 
     <div id="container">
         <div id="signup">
-            <form method="POST" action="{% url 'blog_app:set_profile' user_id %}">
+            <form method="POST" action="{% url 'blog_app:set_profile' user_id %}" enctype="multipart/form-data">
                 {% csrf_token %}
     
                 {% if error %}

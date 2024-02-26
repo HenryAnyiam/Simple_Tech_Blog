@@ -1,23 +1,17 @@
-#container {
-    background-color: white;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+
+.draft-container {
+    margin-top: 5vh;
 }
 
-/* #post-container {
-    font-size: 20px;
-    font-family:'Times New Roman', Times, serif;
-    width: auto;
-    background-color: #ffffff;
-    border: 1px solid rgb(66, 151, 236);
-    border-radius: 10px;
-    box-shadow: 2px 5px 2px #ccc;
-    text-align: center;
-    padding: 20px;
-    margin-top: 50px;
-    height: auto;
-} */
+.input-control {
+    margin: 5px;
+}
+
+.btn-cls {
+    margin: 3px;
+    border-radius: 5px;
+}
+
+.body-control:focus {
+    outline: none;
+}

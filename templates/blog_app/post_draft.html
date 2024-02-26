@@ -1,5 +1,11 @@
 {% extends 'blog_app/base_file.html' %}
 
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/draft.css' %}">
+{% endblock %}
+
 {% block active_draft%}active{% endblock %}
 
 {% block body %}
@@ -31,35 +37,40 @@
     {% elif message %}
             <p><em>{{ message }}</em></p>
     {% elif edit %}
-            <div>
+            <div class="container draft-container">
                 <form method="post">
                     {% csrf_token %}
 
-                    <input type="text" name="title" value="{{ post.title }}">
-                    <input type="file" accept="image/*"  name="image" value="{{ post.image }}">
+                    <input type="text" name="title" value="{{ post.title }}" class="form-control input-control">
+                    <input type="file" accept="image/*"  name="image" value="{{ post.image }}" class="form-control input-control">
                     <textarea name="body" value="{{ post.body }}"
-                    class="editable medium-editor-textarea postcontent" 
+                    class="editable medium-editor-textarea postcontent form-control input-control" 
                     required cols="40" rows="10">{{ post.body }}</textarea>
                     <input type="hidden" value="{{ post.id }}" name="post">
                     <input type="hidden" name="draft" value="True">
-                    <input type="submit" class="btn btn-success" value="Save">
+                    <input type="submit" class="btn btn-success form-control input-control" value="Save">
                 </form>
             </div>
     {% elif post %}
+    <div class="container draft-container">
         <h2>{{ post.title }}</h2>
+        <img src="{{ post.image.url }}">
         <p>{{ post.body|safe|linebreaks }}</p>
         <form method="post" action="{% url 'blog_app:drafts' %}">
             {% csrf_token %}
             <input type="hidden" value="{{ post.id }}" name="post">
-            <input type="hidden" value="True" name="publish">
-            <input type="submit" class="btn btn-primary" value="Publish">
+                <input type="hidden" value="True" name="edit">
+                <input type="submit" class="btn btn-outline-warning" value="Edit">
         </form>
-        <form method="post" action="{% url 'blog_app:drafts' %}">
-            {% csrf_token %}
-            <input type="hidden" value="{{ post.id }}" name="post">
-            <input type="hidden" value="True" name="edit">
-            <input type="submit" class="btn btn-outline-warning" value="Edit">
-        </form>
+        <div class="d-flex justify-content-evenly">
+            <form method="post" action="{% url 'blog_app:drafts' %}">
+                {% csrf_token %}
+                <input type="hidden" value="{{ post.id }}" name="post">
+                <input type="hidden" value="True" name="publish">
+                <input type="submit" class="btn btn-primary" value="Publish">
+            </form>
+        </div>
+    </div>
     {% endif %}
 
 {% endblock %}

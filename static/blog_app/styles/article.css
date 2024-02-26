@@ -1,0 +1,52 @@
+.btn-container {
+    margin: 10px;
+}
+
+.container > h2 {
+    margin-bottom: 0px;
+}
+.details {
+    margin-bottom: 3vh;
+    margin-top: 0px;
+}
+
+.details p {
+    font-weight: lighter;
+    font-size: 15px;
+    margin: 5px;
+}
+
+.details > p {
+    margin-left: 0px;
+}
+
+.comment .name {
+    font-weight: lighter;
+    font-size: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.comment .image {
+    margin-right: 5px;
+}
+
+.comment .the-comment {
+    font-size: 12px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.comment-box {
+    background-color: #fff;
+    border: 1px solid rgb(66, 151, 236);
+    padding: 4px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 1px #ccc;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.comment {
+    margin: 5px;
+    margin-bottom: 2vh;
+}
