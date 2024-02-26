@@ -16,6 +16,7 @@ class User(AbstractUser):
     about = models.TextField(null=True)
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
     thumbnail = models.ImageField(upload_to='thumbnails', blank=True)
+    mini_thumbnail = models.ImageField(upload_to='thumbnails', blank=True)
     confirmed_email = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -33,12 +34,15 @@ class User(AbstractUser):
             image = Image.Image.copy(image)
             if image.width > 200 or image.height > 200:
                 image.thumbnail((300, 300))
-                name = 'profile_' + path.basename(self.profile_pic)
-                image.save(settings.MEDIA_ROOT, 'thumbnails', name)
+                name = 'profile_' + path.basename(self.profile_pic.path)
+                image.save(path.join(settings.MEDIA_ROOT, 'thumbnails', name))
                 self.thumbnail = path.join('thumbnails', name)
+                image = Image.Image.copy(image)
+                image.thumbnail((30, 30))
+                name ='profile_thumb_' + path.basename(self.profile_pic.path)
+                image.save(path.join(settings.MEDIA_ROOT, 'thumbnails', name))
+                self.mini_thumbnail = path.join('thumbnails', name)
                 
-
-            self.thumbnail = image
 
 
 class Article(models.Model):
