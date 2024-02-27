@@ -28,7 +28,6 @@
 }
 
 .about-p {
-    width: 500px;
     display: flex;
     align-items: center;
     text-wrap: wrap;
