@@ -32,15 +32,26 @@
     {% endif %}
 
     <div class="container">
-
-        <h2>{{ article.title|safe|linebreaksbr }}</h2>
-        <div class="d-flex justify-content-start details">
-            <p>Written by: {{ article.author.username }}</p>
-            <p>{{article.publish_date|date:"D, d M Y"}}</p>
-            {% if article.edited %}
-                <p>Edited</p>
-            {% endif %}
+        <div class="d-flex justify-content-start">
+            <div class="img-container">
+                {% if article.author.thumbnail %}
+                    <img class="circular-image" src="{{ article.author.thumbnail.url }}">
+                {% else %}
+                    <p>No Image</p>
+                {% endif %}
+            </div>
+            <div class="align-self-end">
+                <h2>{{ article.title|safe|linebreaksbr }}</h2>
+                <div class="d-flex justify-content-start details">
+                    <p>Written by: {{ article.author.username }}</p>
+                    <p>{{article.publish_date|date:"D, d M Y"}}</p>
+                    {% if article.edited %}
+                        <p>Edited</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
+        
         {% if article.image %}
         <img src="{{ article.image.url }}" class="img-fluid img-thumbnail">
         {% endif %}

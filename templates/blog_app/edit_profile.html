@@ -29,6 +29,11 @@
                     <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" value="{{ user.last_name }}">
                 </div>
                 <div class="mb-3">
+                    <label for="about" class="form-label">Update About</label>
+                    <textarea name="about" cols="40" rows="10" class="form-control" id="about">{{ user.about }}</textarea>
+                 
+                </div>
+                <div class="mb-3">
                     <label for="password" class="form-label">Update Password</label>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                 </div>

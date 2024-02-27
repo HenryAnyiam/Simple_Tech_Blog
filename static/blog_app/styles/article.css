@@ -67,3 +67,22 @@
     height: auto;
     border-radius: 50%;
 }
+
+.img-container{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.circular-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
