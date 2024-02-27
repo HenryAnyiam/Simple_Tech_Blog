@@ -104,6 +104,7 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
                 form = ArticleForm(form_data)
                 if form.is_valid():
                     if image:
+                        post.clear_older_images()
                         post.image = image
                     post.get_thumbnail()
                     post.title = title

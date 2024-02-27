@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from uuid import uuid4
 from django.utils import timezone
 from PIL import Image
-from os import path
+from os import path, remove
 from django.conf import settings
 
 # Create your models here.
@@ -21,6 +21,16 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return f'User: {self.email} {self.username}'
+    
+    def clear_older_images(self):
+        """clear older images before setting a new one"""
+        if self.profile_pic and path.isfile(self.profile_pic.path):
+            remove(self.profile_pic.path)
+        if self.thumbnail and path.isfile(self.thumbnail.path):
+            remove(self.thumbnail.path)
+        if self.mini_thumbnail and path.isfile(self.mini_thumbnail.path):
+            remove(self.mini_thumbnail.path)
+
     
     def confirm_email(self):
         """confirm user email"""
@@ -83,6 +93,13 @@ class Article(models.Model):
                 name = 'article_' + path.basename(self.image.path)
                 image.save(path.join(settings.MEDIA_ROOT, 'thumbnails', name))
                 self.thumbnail = path.join('thumbnails', name)
+    
+    def clear_older_images(self):
+        """clear older images before setting a new one"""
+        if self.image and path.isfile(self.image.path):
+            remove(self.image.path)
+        if self.thumbnail and path.isfile(self.thumbnail.path):
+            remove(self.thumbnail.path)
     
     
 

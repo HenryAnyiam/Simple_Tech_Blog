@@ -270,6 +270,7 @@ class UserEditView(TemplateView):
                     setattr(user, i, request.POST.get(i))
             user.save()
             if request.FILES.get('profile_pic'):
+                user.clear_older_images()
                 user.profile_pic = request.FILES.get('profile_pic')
                 user.save()
                 user.get_thumbnail()
