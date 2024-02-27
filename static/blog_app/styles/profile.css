@@ -26,3 +26,10 @@
     height: auto;
     border-radius: 50%;
 }
+
+.about-p {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    text-wrap: wrap;
+}

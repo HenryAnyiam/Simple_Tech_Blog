@@ -24,12 +24,12 @@
             {% endif %}
         </div>
         <div class="d-flex align-items-start">
-            <h2>{{ user_profile.first_name }} {{ user_profile.last_name }}</h2>
+            <h2>{{ user_profile.first_name }} {{ user_profile.last_name }} ({{ user_profile.username }})</h2>
             {% if user.id == user_profile.id %}
                 <a class="btn btn-warning btn-sm" href="{% url 'blog_app:edit_profile' %}" style="margin: 5px;">Edit Profile</a>
             {% endif %}
         </div>
-        <p>{{ user_profile.about }}</p>
+        <p class="about-p">{{ user_profile.about }}</p>
 
         <h3>Articles</h3>
         <ul class="article-list">
@@ -53,6 +53,8 @@
                         </div>
                     </li>
                 {% endif %}
+            {% empty %}
+            <li>{{ user_profile.username }} Currently has no Articles</li>
             {% endfor %}
         </ul>
     </div>
