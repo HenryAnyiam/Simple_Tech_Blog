@@ -108,6 +108,10 @@ class ArticleDraftView(LoginRequiredMixin, TemplateView):
                     post.get_thumbnail()
                     post.title = title
                     post.body = body
+                    if image:
+                        post.image = image
+                    post.save()
+                    post.get_thumbnail()
                     post.save()
                 return HttpResponseRedirect(reverse('blog_app:draft', args=[post.id]))
             elif delete == 'True':
