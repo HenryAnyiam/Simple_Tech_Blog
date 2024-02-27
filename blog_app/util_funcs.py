@@ -52,12 +52,27 @@ class UtilClass:
         encoded_jwt = self.encode_id(user_id)
         url = request.build_absolute_uri(reverse('blog_app:confirm_email',
                                                  kwargs={'encoded': encoded_jwt}))
-        html_content = "<html><body>"
-        html_content += "<h1>Confirm Email at <em>Techies Corner</em></h2>"
-        html_content = "<h2><em>Click below to confirm your email</em></h2>"
-        html_content += f"<a href='{url}'>Confirm Email</a>"
-        html_content += "<p>Do not reply to this email<p>"
-        html_content += "</body></html>"
+        html_content = f"""
+                <html>
+                    <body>
+                        <div style='margin: 5px; background-color: #eae7e7;'>
+                            
+                            <h1 style='color: rgb(66, 151, 236); margin: 5px; text-align: center;'>Techies Corner</h1>
+                            <h2 style='color: rgb(66, 151, 236); margin: 5px; text-align: center;'>Go ahead and confirm your email<h2>
+                            <p><em style='font-size: 15px; text-align: center;'>With Techies Corner, you are always up to date with the latests in the tech community.
+                            Your account creation is almost complete. By confirming your email address, you let
+                            us know you are the rightful owner to this account</em></p>
+                            <div style='background-color: #027af9;
+                            display: flex; justify-contents: center;
+                            align-items: center; width: fit-content;
+                            height: auto; padding: 10px; border-radius: 10px;'>
+                            <a style='color: white; text-align: center;' href='{url}'>Confirm Your Email Address</a>
+                            </div>
+                            <p style='font-weight: lighter; font-size: 12px;'>Do not reply to this email<p>
+                        </div>
+                    </body>
+                </html>
+                """
         msg = MIMEMultipart('alternative')
         msg['From'] = EMAIL_USER
         msg['To'] = user_email
@@ -75,12 +90,25 @@ class UtilClass:
         encoded_jwt = self.encode_id(user_id)
         url = request.build_absolute_uri(reverse('blog_app:reset_password',
                                                  kwargs={'encoded': encoded_jwt}))
-        html_content = "<html><body>"
-        html_content += "<h1>Reset Password at <em>Techies Corner</em></h2>"
-        html_content = "<h2><em>Click below to reset your password</em></h2>"
-        html_content += f"<a href='{url}'>Reset Password</a>"
-        html_content += "<p>Do not reply to this email<p>"
-        html_content += "</body></html>"
+        html_content = f"""
+                <html>
+                    <body>
+                        <div style='margin: 5px; padding: 5px;'>
+                            <h1 style='color: rgb(66, 151, 236); margin: 5px; text-align: center;'>Techies Corner</h1>
+                            <h2 style='color: rgb(66, 151, 236); margin: 5px; text-align: center;'>Reset Your Techies Corner Password</h2>
+                            <p><em style='font-size: 15px; text-align: center;'>This email was sent as a result of password rest request
+                            on your account. If you did not request this. Log on to your techies corner account to update your password and further secure your acount</em></p>
+                            <div style='background-color: #027af9;
+                            display: flex; justify-contents: center;
+                            align-items: center; width: fit-content;
+                            height: auto; padding: 10px; border-radius: 10px;'>
+                            <a style='color: white; text-align: center;' href='{url}'>Reset your password</a>
+                            </div>
+                            <p style='font-weight: lighter; font-size: 12px;'>Do not reply to this email<p>
+                        </div>
+                    </body>
+                </html>
+                """
         msg = MIMEMultipart('alternative')
         msg['From'] = EMAIL_USER
         msg['To'] = user_email
