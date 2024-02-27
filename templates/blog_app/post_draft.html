@@ -40,7 +40,7 @@
             <p><em>{{ message }}</em></p>
     {% elif edit %}
             <div class="container draft-container">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <input type="text" name="title" value="{{ post.title }}" class="form-control input-control">
@@ -56,7 +56,7 @@
     {% elif post %}
     <div class="container draft-container">
         <h2>{{ post.title }}</h2>
-        <img src="{{ post.image.url }}">
+        <img class="img-fluid" src="{{ post.image.url }}">
         <p>{{ post.body|safe|linebreaks }}</p>
         <form method="post" action="{% url 'blog_app:drafts' %}">
             {% csrf_token %}
