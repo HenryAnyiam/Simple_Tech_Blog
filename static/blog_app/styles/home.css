@@ -8,9 +8,13 @@
 .intro-text {
     text-align: center;
     background-color: rgba(0, 0, 0, 0.3);
-    font-family: cursive;
+    font-family: 'Times New Roman', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     font-size: 30px;
     color: white;
+}
+
+.intro-text span {
+    font-family: cursive;
 }
 
 .latest-news {
