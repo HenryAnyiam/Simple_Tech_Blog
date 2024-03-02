@@ -1,8 +1,74 @@
 {% extends  'blog_app/base_file.html' %}
 
+{% load static %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog_app/styles/home.css' %}">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+
 {% block active_home%}active{% endblock %}
 
 {% block body %}
     
-    <h1><em>Welcome to your favourite Tech Blog</em></h1>
+    <div class="container-fluid intro" style="background-image: url({% static 'blog_app/images/link_image.jpeg'%});">
+        <div class="container-fluid intro-text">
+            <p>Every Techie has a Tale to share,</p>
+            <p>Every Tale seeks an eager ear,</p>
+            <p>With Tales shared, Lessons are learned</p>
+            <p>For every Techie there is a Lesson to Learn</p>
+            <p>Welcome to <b>Techies Corner</b>, where our tales links us as One</p>
+        </div>
+        
+    </div>
+
+    <div class="container-fluid latest-news">
+        <p style="text-align: center; font-weight: bolder;">News Today</p>
+        <ul>
+            {% for i in news %}
+                <li>
+                    <strong>
+                        <a href="{{ i.link }}" target="_blank">{{ i.title }}</a>
+                    </strong>
+                    <p>{{ i.summary }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'blog_app:news' %}">See all News</a>
+    </div>
+    <div class="container-fluid latest-articles">
+        <p style="text-align: center; font-weight: bolder;">Top Articles of the Day</p>
+        <ul>
+            {% for i in articles %}
+                <li>
+                    <strong>
+                        <a href="{{ i.link }}" target="_blank">{{ i.title }}</a>
+                    </strong>
+                    <div class="body-div" style="height: 10vh; overflow: hidden;">
+                        <p class="text-break">{{ i.body|safe|linebreaksbr }}...</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'blog_app:articles' %}">See all Articles</a>
+    </div>
+    <div class="invite" style="margin-top: 10px;">
+        {% if user.is_authenticated %}
+            <p>Got a story to share? Go ahead <a href="{% url 'blog_app:new_article' %}">Tell it</a></p>
+        {% else %}
+            <p><a href="{% url 'blog_app:signup' %}">Create an Account Now</a> to start writing</p>
+            <p>Already have an account? <a href="{% url 'blog_app:login' %}">Log in</a></p>
+        {% endif %}
+    </div>
+    
+    <script>
+        $(".intro").hide()
+        $(".latest-news").hide()
+        $(".latest-articles").hide()
+        $(".invite").hide()
+        $(".intro").slideDown(5000)
+        $(".latest-news").fadeIn(5000)
+        $(".latest-articles").fadeIn(6000)
+        $(".invite").fadeIn(6000)
+    </script>
 {% endblock %}

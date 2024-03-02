@@ -1,0 +1,29 @@
+.intro {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.intro-text {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-family: cursive;
+    font-size: 30px;
+    color: white;
+}
+
+.latest-news {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 2px 5px 2px #ccc;
+    height: auto;
+}
+
+.latest-articles {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 2px 5px 2px #ccc;
+    height: auto;
+    margin-top: 10px;
+}

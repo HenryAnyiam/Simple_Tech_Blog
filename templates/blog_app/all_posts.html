@@ -3,22 +3,31 @@
 {% block active_articles%}active{% endblock %}
 
 {% block body %}
+<div style="margin-top: 10px;">
     <form method="POST">
         {% csrf_token %}
-        <div class="input-group input-group-sm mb-3" style="margin: 5px;">
-        <select name="order_by" id="order_by">
+        <div class="d-flex justify-content-evenly"
+        style="margin: 5px; padding: 5px;
+        border: 1px solid rgb(66, 151, 236);
+        border-radius: 10px;
+        font-family:'Times New Roman', Times, serif;">
+        <select name="order_by" id="order_by" class="form-control"
+        style="margin-right: 5px; width: 25vw;">
             <option disabled selected>Sort by</option>
             <option value="publish_date">Date Published</option>
             <option value="views">Most Viewed</option>
             <option value="comments" >Mose Comments</option>
             <option value="likes">Most Liked</option>
         </select>
-        <select name="order" id="order">
+        <select name="order" id="order" class="form-control"
+        style="margin-right: 5px; width: 25vw;">
             <option disabled selected>Order</option>
             <option value="ascending">Ascending</option>
             <option value="descending">Descending</option>
         </select>
-        <input list="authors_list" name="author" placeholder="Get specific author">
+        <input list="authors_list" name="author"
+        placeholder="Get specific author" class="form-control"
+        style="margin-right: 5px; width: 25vw;">
         <datalist id="authors_list">
             {% for user in users %}
                 <option>{{ user }}</option>
@@ -26,9 +35,11 @@
         </datalist>
         <input type="hidden" value="{{ sort }}" name="sort">
 
-        <input type="submit" class="btn btn-primary" value="Sort">
+        <input type="submit" class="btn btn-primary btn-sm" value="Sort" style="width: 20vw;">
     </div>
     </form>
+</div>
+    
 
     {% if error %}
         <p>{{ error }}</p>
